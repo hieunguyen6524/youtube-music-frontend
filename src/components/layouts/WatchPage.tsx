@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Button } from "../ui/button";
 
-import TabButton from "../player-page/TabButton";
-import PlaylistView from "../player-page/PlaylistView";
-import LyricView from "../player-page/LyricView";
+import TabButton from "../watch/TabButton";
+import PlaylistView from "../watch/PlaylistView";
+import LyricView from "../watch/LyricView";
 
 function PlayerPage() {
   const [viewMode, setViewMode] = useState<"music" | "video">("music");

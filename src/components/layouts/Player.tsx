@@ -14,15 +14,18 @@ import {
 
 import ProgressBar from "./ProgressBar";
 import VolumeControl from "./VolumeControl";
+import { useNavigate } from "react-router-dom";
+import { usePlayer } from "@/hooks/usePlayer";
 
 type PlayerProps = {
   openPlayerPage: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 function Player({ openPlayerPage }: PlayerProps) {
-  const [isPlaying, setIsPlaying] = useState(false);
+  const navigate = useNavigate();
+  const { isPlaying, setIsPlaying } = usePlayer();
   const [progress, setProgress] = useState(0);
-  const [volume, setVolume] = useState(50);
+  const { volume, setVolume } = usePlayer();
   const [showVolumControl, setShowVolumControl] = useState(false);
   const [isHoverFooter, setIsHoverFooter] = useState(false);
 
@@ -55,7 +58,12 @@ function Player({ openPlayerPage }: PlayerProps) {
       <div className="flex items-center justify-between flex-1 px-4">
         {/* Controls */}
         <div className="flex flex-col items-center gap-2">
-          <div className="flex items-center gap-4">
+          <div
+            className="flex items-center gap-4"
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
             <Button variant="ghost" size="icon" className="text-white">
               <SkipBackIcon size={20} />
             </Button>
@@ -64,7 +72,7 @@ function Player({ openPlayerPage }: PlayerProps) {
               size="icon"
               className="w-10 h-10 rounded-full  text-black "
               onClick={() => {
-                setIsPlaying((p) => !p);
+                setIsPlaying(!isPlaying);
               }}
             >
               {isPlaying ? (
@@ -92,7 +100,6 @@ function Player({ openPlayerPage }: PlayerProps) {
               className="text-sm font-semibold leading-tight capitalize"
               onClick={(e) => {
                 e.stopPropagation();
-                // logic khác ở đây
               }}
             >
               Đừng làm trái tim anh đau
@@ -101,7 +108,7 @@ function Player({ openPlayerPage }: PlayerProps) {
               <span
                 onClick={(e) => {
                   e.stopPropagation();
-                  // logic khác ở đây
+                  navigate("/channel");
                 }}
               >
                 Sơn Tùng M-TP

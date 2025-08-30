@@ -147,7 +147,7 @@ export default function AlbumSection() {
     <div className=" px-6 py-4">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-5xl font-bold">Chọn nhanh đài phát</h2>
+        <h2 className="text-5xl font-bold">Play list</h2>
         <div className="flex items-center gap-2">
           <button className="px-4 py-1.5 rounded-full bg-zinc-800 text-sm font-medium hover:bg-zinc-700">
             Xem thêm
@@ -169,7 +169,7 @@ export default function AlbumSection() {
             key={album.id}
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.2 }}
-            className="min-w-[250px] cursor-pointer "
+            className="min-w-[200px] cursor-pointer "
           >
             <div className="w-full aspect-square rounded-md overflow-hidden">
               <img
