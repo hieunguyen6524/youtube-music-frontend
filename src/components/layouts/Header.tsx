@@ -2,18 +2,19 @@ import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { MenuIcon, Search } from "lucide-react";
-import type React from "react";
+
+import { useAppState } from "@/hooks/useAppState";
 
 type HeaderProps = {
-  setShowSidebar: React.Dispatch<React.SetStateAction<boolean>>;
-  isTop: boolean;
+  isTransparent: boolean;
 };
 
-export default function Header({ setShowSidebar, isTop }: HeaderProps) {
+export default function Header({ isTransparent }: HeaderProps) {
+  const { showSidebar, setShowSidebar } = useAppState();
   return (
     <header
       className={`${
-        !isTop && "bg-black"
+        !isTransparent && "bg-black"
       } h-16 flex items-center justify-between px-2 text-white shadow-sm fixed top-0 left-0 right-0 z-50`}
     >
       {/* Left section (menu + logo) */}
@@ -22,7 +23,7 @@ export default function Header({ setShowSidebar, isTop }: HeaderProps) {
           variant="ghost"
           className="text-white/80 hover:text-white hover:bg-black/20 
              dark:hover:bg-white/20 justify-center transition-colors"
-          onClick={() => setShowSidebar((prev) => !prev)}
+          onClick={() => setShowSidebar(!showSidebar)}
         >
           <MenuIcon size={24} />
         </Button>

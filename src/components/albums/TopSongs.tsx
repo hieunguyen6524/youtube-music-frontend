@@ -1,5 +1,7 @@
-import { Play } from "lucide-react";
+import { usePlayer } from "@/hooks/usePlayer";
+import { PauseIcon, PlayIcon } from "lucide-react";
 import { useState } from "react";
+import { Button } from "../ui/button";
 
 const songs = [
   {
@@ -70,6 +72,7 @@ const songs = [
 
 export default function TopSongs() {
   const [showAll, setShowAll] = useState(false);
+  const { isPlaying, setIsPlaying } = usePlayer();
 
   const visibleSongs = showAll ? songs : songs.slice(0, 5);
   return (
@@ -85,12 +88,23 @@ export default function TopSongs() {
             className="grid grid-cols-12 items-center gap-4 group hover:bg-white/10 px-3 py-2 rounded-lg transition"
           >
             {/* Cover */}
-            <div className="col-span-1">
+            <div className="relative col-span-1">
               <img
                 src={song.cover}
                 alt={song.title}
                 className="w-12 h-12 rounded object-cover"
               />
+              <Button
+                variant="ghost"
+                onClick={() => setIsPlaying(!isPlaying)}
+                className="absolute inset-0 flex items-center justify-center w-12 h-12 opacity-0 hover:bg-black/20 hover:opacity-100"
+              >
+                {!isPlaying ? (
+                  <PlayIcon fill="white" />
+                ) : (
+                  <PauseIcon fill="white" />
+                )}
+              </Button>
             </div>
 
             {/* Title + Artist */}
@@ -108,8 +122,7 @@ export default function TopSongs() {
             <div className="col-span-2 text-gray-400">{song.plays}</div>
 
             {/* Extra column (icon play hoặc tên) */}
-            <div className="col-span-2 flex items-center justify-end gap-2">
-              <Play className="w-5 h-5 opacity-0 group-hover:opacity-100 transition" />
+            <div className="col-span-2 flex items-center justify-start gap-2">
               <span className="hidden md:block">{song.title}</span>
             </div>
           </div>

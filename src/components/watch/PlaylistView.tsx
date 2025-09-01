@@ -1,6 +1,9 @@
-import { PlayIcon } from "lucide-react";
+import { PauseIcon, PlayIcon } from "lucide-react";
+import { Button } from "../ui/button";
+import { usePlayer } from "@/hooks/usePlayer";
 
 function PlaylistView() {
+  const { isPlaying, setIsPlaying } = usePlayer();
   return (
     <div className="flex-1 overflow-y-auto p-3 custom-scroll">
       <div className="flex items-center justify-between gap-4 px-3 py-2 rounded-lg hover:bg-zinc-800 cursor-pointer">
@@ -11,11 +14,22 @@ function PlaylistView() {
             alt="cover"
             className="w-full h-full object-cover rounded-sm"
           />
-          <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl">
+          {/* <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl">
             <button className="w-6 h-6 flex items-center justify-center rounded-full text-white shadow-lg">
               <PlayIcon size={16} fill="white" />
             </button>
-          </div>
+          </div> */}
+          <Button
+            variant="ghost"
+            onClick={() => setIsPlaying(!isPlaying)}
+            className=" w-8 h-8 absolute inset-0 flex items-center justify-center  opacity-0 hover:bg-black/20 hover:opacity-100"
+          >
+            {!isPlaying ? (
+              <PlayIcon size={16} fill="white" />
+            ) : (
+              <PauseIcon size={16} fill="white" />
+            )}
+          </Button>
         </div>
 
         {/* Info */}

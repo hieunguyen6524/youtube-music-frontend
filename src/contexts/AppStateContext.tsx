@@ -8,12 +8,15 @@ const AppStateContext = createContext<AppStateContextType | undefined>(
 
 function AppStateProvider({ children }: { children: React.ReactNode }) {
   const [scrollY, setScrollY] = useState(0);
+  const [showSidebar, setShowSidebar] = useState(true);
 
   return (
     <AppStateContext.Provider
       value={{
         scrollY,
         setScrollY,
+        showSidebar,
+        setShowSidebar,
       }}
     >
       {children}

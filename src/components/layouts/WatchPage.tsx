@@ -4,8 +4,11 @@ import { Button } from "../ui/button";
 import TabButton from "../watch/TabButton";
 import PlaylistView from "../watch/PlaylistView";
 import LyricView from "../watch/LyricView";
+import { usePlayer } from "@/hooks/usePlayer";
+import { PauseIcon, PlayIcon } from "lucide-react";
 
 function PlayerPage() {
+  const { isPlaying, setIsPlaying } = usePlayer();
   const [viewMode, setViewMode] = useState<"music" | "video">("music");
   const [activeTab, setActiveTab] = useState<"playlist" | "lyric">("playlist");
 
@@ -23,7 +26,7 @@ function PlayerPage() {
   const lyricLines = lyricString.split("\n");
 
   return (
-    <div className="flex h-full flex-1 overflow-hidden">
+    <div className="flex h-full flex-1 overflow-hidden pt-16">
       {/* Left: Content (ảnh + info) */}
       <div className="flex-1 h-full flex items-center justify-center overflow-y-auto p-6">
         <div className="h-full w-full gap-24 flex flex-col justify-between items-center px-24">
@@ -50,12 +53,23 @@ function PlayerPage() {
           </nav>
 
           {/* Cover */}
-          <div className="w-full h-auto flex flex-1 justify-center">
+          <div className="relative w-full h-auto flex flex-1 justify-center">
             <img
               src="https://lh3.googleusercontent.com/wnhSwf3pm3Bz5w4HAT-KELF7JBC92oLFgjAl4KTQO4ze46D1DGZqYgTv-UW6QuEmmeE8uBFR-EyMiP8=w544-h544-l90-rj"
               alt="Album cover"
               className="rounded-xl shadow-lg cursor-pointer block object-contain"
             />
+            <Button
+              variant="ghost"
+              onClick={() => setIsPlaying(!isPlaying)}
+              className="w-full h-full absolute inset-0 flex items-center justify-center  opacity-0 hover:bg-black/20 hover:opacity-100"
+            >
+              {!isPlaying ? (
+                <PlayIcon size={32} fill="white" />
+              ) : (
+                <PauseIcon size={32} fill="white" />
+              )}
+            </Button>
           </div>
         </div>
       </div>

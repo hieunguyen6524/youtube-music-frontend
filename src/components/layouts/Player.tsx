@@ -89,7 +89,7 @@ function Player({ openPlayerPage }: PlayerProps) {
 
         {/* Song Info */}
         <div className="flex items-center gap-3 min-w-[200px]">
-          <div className="w-10 h-10 bg-gray-700 rounded overflow-hidden">
+          <div className="w-10 h-10 bg-gray-700 rounded overflow-hidden c">
             <img
               src="https://lh3.googleusercontent.com/wnhSwf3pm3Bz5w4HAT-KELF7JBC92oLFgjAl4KTQO4ze46D1DGZqYgTv-UW6QuEmmeE8uBFR-EyMiP8=w544-h544-l90-rj"
               alt=""
@@ -106,6 +106,7 @@ function Player({ openPlayerPage }: PlayerProps) {
             </p>
             <p className="text-s text-gray-400 capitalize">
               <span
+                className="cursor-pointer"
                 onClick={(e) => {
                   e.stopPropagation();
                   navigate("/channel");
@@ -115,9 +116,10 @@ function Player({ openPlayerPage }: PlayerProps) {
               </span>{" "}
               •{" "}
               <span
+                className="cursor-pointer"
                 onClick={(e) => {
                   e.stopPropagation();
-                  // logic khác ở đây
+                  navigate("/album");
                 }}
               >
                 Đừng làm trái tim anh đau

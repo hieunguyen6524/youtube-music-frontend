@@ -1,6 +1,6 @@
 import * as Slider from "@radix-ui/react-slider";
 import { Button } from "../ui/button";
-import { Volume2Icon } from "lucide-react";
+import { Volume2Icon, VolumeXIcon } from "lucide-react";
 
 type VolumeControlProps = {
   volume: number;
@@ -40,7 +40,7 @@ function VolumeControl({
         </div>
       )}
       <Button variant="ghost" size="icon" className="text-white">
-        <Volume2Icon size={18} />
+        {volume !== 0 ? <Volume2Icon size={18} /> : <VolumeXIcon size={18} />}
       </Button>
     </div>
   );

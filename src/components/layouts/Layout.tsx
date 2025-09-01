@@ -8,46 +8,6 @@ import PlayerPage from "./WatchPage";
 import { AnimatePresence, motion } from "framer-motion";
 import { useAppState } from "@/hooks/useAppState";
 
-// export default function Layout({ children }: { children: ReactNode }) {
-//   const [showSidebar, setShowSidebar] = useState(true);
-//   const [player, setPlayer] = useState(false);
-
-//   return (
-//     <div className="flex flex-col h-screen bg-[#111] text-white">
-//       {/* Header */}
-//       <Header setShowSidebar={setShowSidebar} />
-
-//       {/* Sidebar + Content */}
-//       <div className="flex flex-1 overflow-hidden">
-//         <Sidebar showSidebar={showSidebar} />
-
-//         {/* Content area */}
-//         <div className="flex-1 flex flex-col overflow-hidden relative">
-//           <main className="flex-1 overflow-y-auto p-4">{children}</main>
-
-//           {/* PlayerPage Overlay chỉ đè lên children */}
-//           <AnimatePresence>
-//             {player && (
-//               <motion.div
-//                 initial={{ y: "100%" }}
-//                 animate={{ y: 0 }}
-//                 exit={{ y: "100%" }}
-//                 transition={{ duration: 0.4, ease: "easeInOut" }}
-//                 className="absolute bottom-0 left-0 right-0 top-0 bg-[#111] z-40"
-//               >
-//                 <PlayerPage />
-//               </motion.div>
-//             )}
-//           </AnimatePresence>
-//         </div>
-//       </div>
-
-//       {/* Thanh Player luôn dưới cùng */}
-//       <Player openPlayerPage={setPlayer} />
-//     </div>
-//   );
-// }
-
 type LayoutProps = {
   children: ReactNode;
   isBackground?: boolean;
@@ -57,20 +17,20 @@ export default function Layout({
   children,
   isBackground = false,
 }: LayoutProps) {
-  const [showSidebar, setShowSidebar] = useState(true);
+  const { showSidebar } = useAppState();
   const [player, setPlayer] = useState(false);
-  const { scrollY, setScrollY } = useAppState();
+  const { setScrollY } = useAppState();
 
   // width khi mở/tắt sidebar (header-left cũng sẽ theo width này)
   const sidebarWidth = showSidebar ? "w-56" : "w-20";
 
-  const [isTop, setIsTop] = useState(true);
+  const [isTransparent, setIsTransparent] = useState(true);
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
       if (scrollRef.current) {
-        setIsTop(scrollRef.current.scrollTop === 0);
+        setIsTransparent(scrollRef.current.scrollTop === 0);
         setScrollY(scrollRef.current.scrollTop);
       }
     };
@@ -87,7 +47,6 @@ export default function Layout({
     };
   }, [setScrollY]);
 
-  console.log("scrollY", scrollY);
   return (
     <div
       className={`flex flex-col h-screen text-white ${
@@ -96,14 +55,18 @@ export default function Layout({
     >
       {/* Header */}
       <div className="relative z-50">
-        <Header setShowSidebar={setShowSidebar} isTop={isTop} />
+        <Header isTransparent={isTransparent} />
       </div>
 
       {/* Sidebar + Content */}
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar */}
         <div className={`${sidebarWidth} relative z-40`}>
-          <Sidebar showSidebar={showSidebar} isTop={isTop} />
+          <Sidebar
+            player={player}
+            showSidebar={showSidebar}
+            isTransparent={isTransparent}
+          />
         </div>
 
         {/* Content area */}
@@ -135,80 +98,3 @@ export default function Layout({
     </div>
   );
 }
-
-// export default function Layout({ children }: { children: ReactNode }) {
-//   const [showSidebar, setShowSidebar] = useState(true);
-//   const [player, setPlayer] = useState(false);
-
-//   const [isTop, setIsTop] = useState(true);
-//   const scrollRef = useRef<HTMLDivElement | null>(null);
-
-//   useEffect(() => {
-//     const handleScroll = () => {
-//       if (scrollRef.current) {
-//         setIsTop(scrollRef.current.scrollTop === 0);
-//       }
-//     };
-
-//     const container = scrollRef.current;
-//     if (container) {
-//       container.addEventListener("scroll", handleScroll);
-//     }
-
-//     return () => {
-//       if (container) {
-//         container.removeEventListener("scroll", handleScroll);
-//       }
-//     };
-//   }, []);
-
-//   // width khi mở/tắt sidebar
-//   const sidebarWidth = showSidebar ? "w-56" : "w-20";
-//   return (
-//     <div className="relative h-screen w-screen bg-black text-white overflow-hidden">
-//       {/* ----------------- children (nền) ----------------- */}
-//       <main ref={scrollRef} className="absolute inset-0 overflow-y-auto z-0">
-//         {children}
-//       </main>
-
-//       {/* ----------------- Sidebar + PlayerPage (tầng trung) ----------------- */}
-//       <div className="absolute inset-0 z-20 flex pointer-events-none">
-//         {/* Sidebar */}
-//         <div
-//           className={`${sidebarWidth} h-full pt-16 transition-all duration-300 pointer-events-auto`}
-//         >
-//           <Sidebar showSidebar={showSidebar} isTop={isTop} />
-//         </div>
-
-//         <div className="flex-1 relative pointer-events-auto my-16">
-//           <AnimatePresence>
-//             {player && (
-//               <motion.div
-//                 initial={{ y: "100%" }}
-//                 animate={{ y: 0 }}
-//                 exit={{ y: "100%" }}
-//                 transition={{ duration: 0.4, ease: "easeInOut" }}
-//                 className="absolute inset-0 bg-[#111]"
-//               >
-//                 <PlayerPage />
-//               </motion.div>
-//             )}
-//           </AnimatePresence>
-//         </div>
-//       </div>
-
-//       {/* ----------------- Header + Player (cao nhất) ----------------- */}
-//       <div className="absolute inset-x-0 top-0 z-50 pointer-events-none">
-//         <div className="pointer-events-auto">
-//           <Header setShowSidebar={setShowSidebar} isTop={isTop} />
-//         </div>
-//       </div>
-
-//       <div className="absolute inset-x-0 bottom-0 z-50 pointer-events-none">
-//         <div className="pointer-events-auto">
-//           <Player openPlayerPage={setPlayer} />
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
