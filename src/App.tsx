@@ -4,6 +4,7 @@ import HomePage from "./pages/HomePage";
 import { PlayerProvider } from "./contexts/PlayerContext";
 import { AppStateProvider } from "./contexts/AppStateContext";
 import AlbumPage from "./pages/AlbumPage";
+import SearchPage from "./pages/SearchPage";
 function App() {
   return (
     <PlayerProvider>
@@ -14,6 +15,7 @@ function App() {
             <Route path="/home" element={<HomePage />} />
             <Route path="/channel" element={<ChannelPage />} />
             <Route path="/album" element={<AlbumPage />} />
+            <Route path="/search" element={<SearchPage />} />
           </Routes>
         </BrowserRouter>
       </AppStateProvider>

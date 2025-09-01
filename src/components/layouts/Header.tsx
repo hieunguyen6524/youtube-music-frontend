@@ -1,20 +1,23 @@
-import { Input } from "@/components/ui/input";
+// import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { MenuIcon, Search } from "lucide-react";
+import { MenuIcon } from "lucide-react";
 
 import { useAppState } from "@/hooks/useAppState";
+import { SearchBox } from "./SearchBox";
 
 type HeaderProps = {
   isTransparent: boolean;
+  player: boolean;
 };
 
-export default function Header({ isTransparent }: HeaderProps) {
+export default function Header({ isTransparent, player }: HeaderProps) {
   const { showSidebar, setShowSidebar } = useAppState();
+
   return (
     <header
       className={`${
-        !isTransparent && "bg-black"
+        player || !isTransparent ? "bg-black" : null
       } h-16 flex items-center justify-between px-2 text-white shadow-sm fixed top-0 left-0 right-0 z-50`}
     >
       {/* Left section (menu + logo) */}
@@ -38,19 +41,10 @@ export default function Header({ isTransparent }: HeaderProps) {
 
       {/* Search */}
       <div className="flex flex-1 justify-between">
-        <div className="flex flex-1 justify-center max-w-lg  rounded-lg overflow-hidden">
-          <div className="relative w-full text-white font-semibold">
-            <Input
-              type="text"
-              placeholder="Tìm bài hát, đĩa nhạc, nghệ sĩ, podcast..."
-              className="w-full h-10 pl-10 pr-4 py-2 bg-zinc-700 opacity-50 focus:bg-black focus:opacity-100  focus:outline-none focus:ring-1 focus:ring-red-500"
-            />
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-zinc-500" />
-          </div>
-        </div>
+        <SearchBox />
 
         {/* User */}
-        <div className="flex items-center gap-2 ">
+        <div className="flex items-center gap-2 px-10">
           <Button
             variant="ghost"
             size="sm"
@@ -58,7 +52,7 @@ export default function Header({ isTransparent }: HeaderProps) {
           >
             Đăng nhập
           </Button>
-          <Avatar className="h-8 w-8">
+          <Avatar className="h-8 w-8 ">
             <AvatarImage src="https://github.com/shadcn.png" alt="@user" />
             <AvatarFallback>U</AvatarFallback>
           </Avatar>

@@ -1,4 +1,4 @@
-import { PlusIcon, ListMusicIcon, CompassIcon, HomeIcon } from "lucide-react";
+import { PlusIcon, CompassIcon, HomeIcon, BookmarkIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import { useNavigate } from "react-router-dom";
 
@@ -15,7 +15,7 @@ function Sidebar({ showSidebar, isTransparent, player }: SidebarProps) {
       className={`${showSidebar ? "w-56" : "w-20"}
     ${
       player || showSidebar || !isTransparent ? "bg-black" : "bg-transparent"
-    } fixed top-0 left-0 h-full  border-zinc-800 pt-16 p-2 flex flex-col gap-2 transition-all duration-300`}
+    } fixed top-0 left-0 h-full  border-zinc-800 pt-16 p-2 flex flex-col gap-2`}
     >
       {/* Trang chủ (active) */}
       <Button
@@ -41,7 +41,7 @@ function Sidebar({ showSidebar, isTransparent, player }: SidebarProps) {
         className="text-white/80 hover:text-white hover:bg-black/20 
              dark:hover:bg-white/20 justify-start transition-colors"
       >
-        <ListMusicIcon size={20} />
+        <BookmarkIcon size={20} />
         {showSidebar && <span>Thư viện</span>}
       </Button>
 

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "../ui/button";
 
-import TabButton from "../watch/TabButton";
+import { TabButton } from "../watch/TabButton";
 import PlaylistView from "../watch/PlaylistView";
 import LyricView from "../watch/LyricView";
 import { usePlayer } from "@/hooks/usePlayer";
@@ -31,25 +31,21 @@ function PlayerPage() {
       <div className="flex-1 h-full flex items-center justify-center overflow-y-auto p-6">
         <div className="h-full w-full gap-24 flex flex-col justify-between items-center px-24">
           {/* Toggle Music/Video */}
-          <nav className="flex gap-2 ">
-            <Button
-              variant="secondary"
+          <nav className="flex w-1/4 gap-2 ">
+            <TabButton
+              label="Bài hát"
               onClick={() => setViewMode("music")}
-              className={`rounded-2xl font-bold text-white ${
-                viewMode === "music" ? "bg-zinc-700" : "bg-black"
-              }`}
-            >
-              Bài hát
-            </Button>
-            <Button
-              variant="secondary"
+              active={viewMode === "music"}
+              variant="pill"
+              rounded="rounded-full"
+            />
+            <TabButton
+              label="Video"
               onClick={() => setViewMode("video")}
-              className={`rounded-2xl font-bold text-white ${
-                viewMode === "video" ? "bg-zinc-700" : "bg-black"
-              }`}
-            >
-              Video
-            </Button>
+              active={viewMode === "video"}
+              variant="pill"
+              rounded="rounded-full"
+            />
           </nav>
 
           {/* Cover */}
@@ -75,18 +71,20 @@ function PlayerPage() {
       </div>
 
       {/* Right: Playlist / Lyric */}
-      <div className="w-[500px] border-l border-zinc-800 flex flex-col">
+      <div className="w-[500px] border-l border-zinc-800 flex flex-col ">
         {/* Tabs */}
-        <div className="flex border-b border-zinc-800">
+        <div className="flex border-b border-zinc-800 ">
           <TabButton
-            label="Tiếp theo"
-            active={activeTab === "playlist"}
+            label="TIẾP THEO"
             onClick={() => setActiveTab("playlist")}
+            active={activeTab === "playlist"}
+            variant="underline"
           />
           <TabButton
-            label="Lời nhạc"
-            active={activeTab === "lyric"}
+            label="LỜI NHẠC"
             onClick={() => setActiveTab("lyric")}
+            active={activeTab === "lyric"}
+            variant="underline"
           />
         </div>
 

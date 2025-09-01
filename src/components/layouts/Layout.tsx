@@ -55,7 +55,7 @@ export default function Layout({
     >
       {/* Header */}
       <div className="relative z-50">
-        <Header isTransparent={isTransparent} />
+        <Header isTransparent={isTransparent} player={player} />
       </div>
 
       {/* Sidebar + Content */}
