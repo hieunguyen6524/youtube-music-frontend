@@ -7,18 +7,18 @@ import { useAppState } from "@/hooks/useAppState";
 import { SearchBox } from "./SearchBox";
 
 type HeaderProps = {
-  isTransparent: boolean;
+  isScrolling: boolean;
   player: boolean;
 };
 
-export default function Header({ isTransparent, player }: HeaderProps) {
+export default function Header({ isScrolling, player }: HeaderProps) {
   const { showSidebar, setShowSidebar } = useAppState();
 
   return (
     <header
       className={`${
-        player || !isTransparent ? "bg-black" : null
-      } h-16 flex items-center justify-between px-2 text-white shadow-sm fixed top-0 left-0 right-0 z-50`}
+        player || isScrolling ? "bg-black" : null
+      } h-16 flex items-center justify-between px-2 text-white shadow-sm fixed top-0 left-0 right-0 z-50 transition-all duration-300`}
     >
       {/* Left section (menu + logo) */}
       <div className="w-56 flex items-center gap-2 ">

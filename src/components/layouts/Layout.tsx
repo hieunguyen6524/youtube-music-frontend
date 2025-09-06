@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import type { ReactNode } from "react";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
@@ -19,33 +19,11 @@ export default function Layout({
 }: LayoutProps) {
   const { showSidebar } = useAppState();
   const [player, setPlayer] = useState(false);
-  const { setScrollY } = useAppState();
 
   // width khi mở/tắt sidebar (header-left cũng sẽ theo width này)
   const sidebarWidth = showSidebar ? "w-56" : "w-20";
 
-  const [isTransparent, setIsTransparent] = useState(true);
-  const scrollRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (scrollRef.current) {
-        setIsTransparent(scrollRef.current.scrollTop === 0);
-        setScrollY(scrollRef.current.scrollTop);
-      }
-    };
-
-    const container = scrollRef.current;
-    if (container) {
-      container.addEventListener("scroll", handleScroll);
-    }
-
-    return () => {
-      if (container) {
-        container.removeEventListener("scroll", handleScroll);
-      }
-    };
-  }, [setScrollY]);
+  const [isScrolling, setIsScrolling] = useState(true);
 
   return (
     <div
@@ -55,7 +33,7 @@ export default function Layout({
     >
       {/* Header */}
       <div className="relative z-50">
-        <Header isTransparent={isTransparent} player={player} />
+        <Header isScrolling={isScrolling} player={player} />
       </div>
 
       {/* Sidebar + Content */}
@@ -65,14 +43,19 @@ export default function Layout({
           <Sidebar
             player={player}
             showSidebar={showSidebar}
-            isTransparent={isTransparent}
+            isScrolling={isScrolling}
           />
         </div>
 
         {/* Content area */}
         <div className="flex-1 flex flex-col overflow-hidden relative top-0 left-0 right-0 bottom-0 z-10">
           {/* Main content */}
-          <main ref={scrollRef} className="flex-1 overflow-y-auto ">
+          <main
+            className="flex-1 overflow-y-auto"
+            onScroll={(e) =>
+              setIsScrolling((e.target as HTMLElement).scrollTop > 0)
+            }
+          >
             {children}
           </main>
 

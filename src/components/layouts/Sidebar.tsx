@@ -4,18 +4,18 @@ import { useNavigate } from "react-router-dom";
 
 interface SidebarProps {
   showSidebar: boolean;
-  isTransparent: boolean;
+  isScrolling: boolean;
   player: boolean;
 }
 
-function Sidebar({ showSidebar, isTransparent, player }: SidebarProps) {
+function Sidebar({ showSidebar, isScrolling, player }: SidebarProps) {
   const navigate = useNavigate();
   return (
     <aside
       className={`${showSidebar ? "w-56" : "w-20"}
     ${
-      player || showSidebar || !isTransparent ? "bg-black" : "bg-transparent"
-    } fixed top-0 left-0 h-full  border-zinc-800 pt-16 p-2 flex flex-col gap-2`}
+      player || showSidebar || isScrolling ? "bg-black" : "bg-transparent"
+    } fixed top-0 left-0 h-full  border-zinc-800 pt-16 p-2 flex flex-col gap-2 transition-all duration-300`}
     >
       {/* Trang chủ (active) */}
       <Button

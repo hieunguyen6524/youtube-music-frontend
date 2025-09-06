@@ -1,11 +1,19 @@
 // ChannelPage.tsx
-import { useAppState } from "@/hooks/useAppState";
 import TopSongs from "../components/albums/TopSongs";
 import Layout from "../components/layouts/Layout";
+import { useEffect, useState } from "react";
 
 export default function ChannelPage() {
-  const { scrollY } = useAppState();
-  const overlayOpacity = Math.min(scrollY / 400, 1);
+  const [overlayOpacity, setOverlayOpacity] = useState(0);
+
+  useEffect(() => {
+    function test(e: Event) {
+      const calcualtex = Math.min((e.target as HTMLElement).scrollTop / 400, 1);
+      setOverlayOpacity(calcualtex);
+    }
+    document.documentElement.addEventListener("scroll", test, true);
+  }, []);
+
   return (
     <Layout>
       <div className="relative flex justify-center">
