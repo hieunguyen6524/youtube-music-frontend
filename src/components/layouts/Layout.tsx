@@ -23,7 +23,7 @@ export default function Layout({
   // width khi mở/tắt sidebar (header-left cũng sẽ theo width này)
   const sidebarWidth = showSidebar ? "w-56" : "w-20";
 
-  const [isScrolling, setIsScrolling] = useState(true);
+  const [isScrolling, setIsScrolling] = useState(false);
 
   return (
     <div
@@ -53,7 +53,7 @@ export default function Layout({
           <main
             className="flex-1 overflow-y-auto"
             onScroll={(e) =>
-              setIsScrolling((e.target as HTMLElement).scrollTop > 0)
+              setIsScrolling((e.target as HTMLElement).scrollTop > 20)
             }
           >
             {children}
