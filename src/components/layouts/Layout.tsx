@@ -1,5 +1,4 @@
-import { useState } from "react";
-import type { ReactNode } from "react";
+import { useEffect, useState } from "react";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import Player from "./Player";
@@ -7,18 +6,30 @@ import PlayerPage from "./WatchPage";
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useAppState } from "@/hooks/useAppState";
+import { Outlet } from "react-router-dom";
+import { useAuth } from "@clerk/clerk-react";
 
 type LayoutProps = {
-  children: ReactNode;
   isBackground?: boolean;
 };
 
-export default function Layout({
-  children,
-  isBackground = false,
-}: LayoutProps) {
+export default function Layout({ isBackground = false }: LayoutProps) {
   const { showSidebar } = useAppState();
   const [player, setPlayer] = useState(false);
+  const { getToken } = useAuth();
+
+  useEffect(() => {
+    (async () => {
+      const token = await getToken(); // lấy JWT từ Clerk
+      await fetch("http://localhost:3000/api/auth/sync", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+    })();
+  }, [getToken]);
 
   // width khi mở/tắt sidebar (header-left cũng sẽ theo width này)
   const sidebarWidth = showSidebar ? "w-56" : "w-20";
@@ -56,7 +67,7 @@ export default function Layout({
               setIsScrolling((e.target as HTMLElement).scrollTop > 20)
             }
           >
-            {children}
+            <Outlet />
           </main>
 
           {/* PlayerPage Overlay chỉ đè lên children */}

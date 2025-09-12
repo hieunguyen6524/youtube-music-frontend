@@ -5,17 +5,28 @@ import { PlayerProvider } from "./contexts/PlayerContext";
 import { AppStateProvider } from "./contexts/AppStateContext";
 import AlbumPage from "./pages/AlbumPage";
 import SearchPage from "./pages/SearchPage";
+import LoginPage from "./pages/LoginPage";
+import AuthenLayout from "./components/layouts/AuthenLayout";
+import SignupPage from "./pages/SignupPage";
+import Layout from "./components/layouts/Layout";
+
 function App() {
   return (
     <PlayerProvider>
       <AppStateProvider>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/home" element={<HomePage />} />
-            <Route path="/channel" element={<ChannelPage />} />
-            <Route path="/album" element={<AlbumPage />} />
-            <Route path="/search" element={<SearchPage />} />
+            <Route element={<Layout />}>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/home" element={<HomePage />} />
+              <Route path="/channel" element={<ChannelPage />} />
+              <Route path="/album" element={<AlbumPage />} />
+              <Route path="/search" element={<SearchPage />} />
+            </Route>
+            <Route element={<AuthenLayout />}>
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/signup" element={<SignupPage />} />
+            </Route>
           </Routes>
         </BrowserRouter>
       </AppStateProvider>

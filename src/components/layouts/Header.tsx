@@ -1,10 +1,13 @@
 // import { Input } from "@/components/ui/input";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+// import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { MenuIcon } from "lucide-react";
-
 import { useAppState } from "@/hooks/useAppState";
 import { SearchBox } from "./SearchBox";
+import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react";
+import { useNavigate } from "react-router-dom";
+
+// import LoginButton from "../ui/LoginButton";
 
 type HeaderProps = {
   isScrolling: boolean;
@@ -13,6 +16,7 @@ type HeaderProps = {
 
 export default function Header({ isScrolling, player }: HeaderProps) {
   const { showSidebar, setShowSidebar } = useAppState();
+  const navigate = useNavigate();
 
   return (
     <header
@@ -45,19 +49,40 @@ export default function Header({ isScrolling, player }: HeaderProps) {
 
         {/* User */}
         <div className="flex items-center gap-2 px-10">
-          <Button
-            variant="ghost"
-            size="sm"
-            className="text-white hover:bg-gray-800"
-          >
-            Đăng nhập
-          </Button>
-          <Avatar className="h-8 w-8 ">
-            <AvatarImage src="https://github.com/shadcn.png" alt="@user" />
-            <AvatarFallback>U</AvatarFallback>
-          </Avatar>
+          <SignedOut>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-white hover:bg-gray-800"
+              onClick={() => {
+                navigate("/login");
+              }}
+            >
+              Đăng nhập
+            </Button>
+          </SignedOut>
+          {/* <SignedOut>
+            <LoginButton />
+          </SignedOut> */}
+
+          <SignedIn>
+            {/* <Avatar className="h-8 w-8 ">
+              <AvatarImage src="https://github.com/shadcn.png" alt="@user" />
+              <AvatarFallback>U</AvatarFallback>
+            </Avatar> */}
+            <UserButton />
+          </SignedIn>
         </div>
       </div>
     </header>
   );
 }
+
+// <header>
+//   <SignedOut>
+//
+//   </SignedOut>
+//   <SignedIn>
+//
+//   </SignedIn>
+// </header>
